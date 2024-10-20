@@ -43,8 +43,8 @@
         <!-- Dropdown menu -->
         <div *ngIf="isDropdownOpen" (mouseleave)="isDropdownOpen = false"
         class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50 transition-all duration-300 ease-in-out transform scale-100 origin-top-right">
-     <div (mouseenter)="isDropdownOpen = true" *ngIf="this.isLogin">
-       <a routerLink="/profile"
+     <div (mouseenter)="isDropdownOpen = true" >
+       <a routerLink="/profile" *ngIf="this.isLogin"
           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-200 rounded-lg"
           title="Profile">
           Profile
@@ -54,7 +54,7 @@
           title="Logout">
           Logout
        </a>
-       <a routerLink='/login' *ngIf="this.isLogin !== true"
+       <a routerLink='/login' *ngIf="!this.isLogin"
           class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-200 rounded-lg"
           title="Login">
           Register/Login
