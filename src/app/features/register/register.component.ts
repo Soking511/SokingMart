@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { ApiService } from '../../core/services/api.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -26,9 +27,12 @@ export class RegisterComponent {
 
   constructor(
     private _AuthService:AuthService,
+    private _MessageService:MessageService,
     private _ApiService:ApiService,
     private _Router:Router
   ){ }
+
+  addMessage = ( severity:string='success', summary:string='Service Message', detail:string='MessageService' ) => this._MessageService.add({severity, summary, detail});
 
   register(formData:FormGroup){
     this._AuthService.register(formData.value).subscribe({
@@ -37,13 +41,16 @@ export class RegisterComponent {
         this._AuthService.saveCurrentUser();
         this._Router.navigate(['/home']);
       },
-      // error:(err) => {
-      //   err.error.errors.map((error: any) => {
-      //     if (error.path === 'email' || error.path === 'password' || error.path === 'phone')
-      //       this.messageError = error.msg;
+      error:(err) => {
+        err.error.errors.map((error: any) => {
+          if (error.path === 'email' || error.path === 'password' || error.path === 'phone')
+            return this.addMessage('error', 'error', err.error.errors[0].msg);
+          else
 
-      //   })
-      // }
+          return this.addMessage('error', 'error', 'Password must contain both uppercase and lowercase letters');
+
+        })
+      }
     })
   }
 }

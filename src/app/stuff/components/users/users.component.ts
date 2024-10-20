@@ -62,7 +62,7 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers() {
-    this.apiService.get<any[]>('users', undefined, 'manager', `&page=${this.page}&sort=${this.sort}&search=`).subscribe({
+    this.apiService.get<any[]>('users', 20, 'manager', `&page=${this.page}&sort=${this.sort}&search=`).subscribe({
       next: (res) => {
         this.users = res.data;
         this.pagination = res.pagination;

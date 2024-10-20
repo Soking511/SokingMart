@@ -12,6 +12,7 @@ import { Users } from '../../../shared/interfaces/uesrs';
   templateUrl: './myprofile.component.html',
   styleUrl: './myprofile.component.scss'
 })
+
 export class MyprofileComponent implements OnInit {
   currentUser: any;
   userImage: any;
@@ -56,7 +57,7 @@ export class MyprofileComponent implements OnInit {
   }
 
   getCurrentUserInfo() {
-    this._ApiService.get<Users>('users/me', undefined, 'user').subscribe({
+    this._ApiService.get<Users[]>('users/me', 20, 'user').subscribe({
       next: (res) => {
         this.currentUser = res.data;
         this.updateForm.patchValue({

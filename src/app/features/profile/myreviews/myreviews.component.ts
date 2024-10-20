@@ -18,7 +18,7 @@ export class MyreviewsComponent implements OnInit{
 
   reviews: any = {}
   getReviews(){
-    this._ApiService.get( 'reviews/me', undefined, 'user').subscribe({
+    this._ApiService.get( 'reviews/me', 20, 'user').subscribe({
       next: (res) => {
         this.reviews=res.data as Reviews[];
       },
