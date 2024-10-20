@@ -1,0 +1,139 @@
+<body>
+  <header class="bg-gray-250 border bg-white">
+    <nav class="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a class="-m-1.5 p-1.5 flex items-center space-x-2" routerLink="home" title="Home">
+          <span class="sr-only">Soking Mart</span>
+          <span class="material-symbols-outlined text-gray-600 cursor-pointer hover:text-gray-900 transition-colors duration-300 ease-in-out">
+            storefront
+          </span>
+          <span class="text-xl font-bold font-sans text-gray-600 hover:text-gray-900 transition-colors duration-300 ease-in-out">
+            Soking Mart
+          </span>
+        </a>
+      </div>
+
+      <!-- Mobile menu button (hamburger icon) -->
+      <div class="flex lg:hidden">
+        <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700 hover:bg-gray-100 hover:scale-110 transition-transform duration-200 ease-out" aria-controls="navbar-default" aria-expanded="false">
+          <span class="sr-only">Open main menu</span>
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Desktop menu links with icons -->
+      <div class="hidden lg:flex lg:gap-x-12 px-4">
+        <a routerLink="/home" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-900 transition-colors duration-300 ease-in-out" title="Home">
+          <i class="pi pi-home p-text-secondary" style="font-size: 1.6rem"></i>
+        </a>
+        <!-- <a routerLink="/categories" class="text-sm font-semibold leading-6 text-gray-900 hover:text-gray-900 transition-colors duration-300 ease-in-out" title="Categories">
+          <i class="pi pi-objects-column p-text-secondary" style="font-size: 1.6rem"></i>
+        </a> -->
+        <a (click)="isSideCartOpen=true" class="cursor-pointer text-sm font-semibold leading-6 text-gray-900 hover:text-gray-900 transition-colors duration-300 ease-in-out" title="Shopping Cart">
+          <i class="pi pi-shopping-cart p-text-secondary" pBadge style="font-size: 1.6rem" [value]=itemsQuantity></i>
+        </a>
+      </div>
+
+      <!-- User account and cart icons with dropdown -->
+      <div class="relative hidden lg:flex lg:flex-1 lg:justify-end" (click)="isDropdownOpen = !isDropdownOpen">
+        <i class="pi pi-user p-text-secondary cursor-pointer" style="font-size: 1.6rem" title="User Account"></i>
+
+        <!-- Dropdown menu -->
+        <div *ngIf="isDropdownOpen" (mouseleave)="isDropdownOpen = false"
+        class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg py-2 z-50 transition-all duration-300 ease-in-out transform scale-100 origin-top-right">
+     <div (mouseenter)="isDropdownOpen = true">
+       <a routerLink="/profile"
+          class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-200 rounded-lg"
+          title="Profile">
+          Profile
+       </a>
+       <a (click)="logout()"
+          class="cursor-pointer block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200 transition-colors duration-200 rounded-lg"
+          title="Logout">
+          Logout
+       </a>
+     </div>
+   </div>
+
+
+
+      </div>
+    </nav>
+
+    <style>
+      /* Dropdown styles */
+/* Dropdown styles */
+.dropdown {
+  background-color: white;
+  border-radius: 0.5rem; /* Rounded corners */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  transition: all 0.3s ease; /* Smooth transition */
+  transform: translateY(-10px); /* Slightly raise the dropdown */
+  opacity: 0; /* Start hidden */
+}
+
+/* Visible state */
+.dropdown.show {
+  transform: translateY(0); /* Reset position */
+  opacity: 1; /* Fade in */
+}
+
+/* Hover effect */
+.dropdown a {
+  position: relative;
+}
+
+/* Highlight effect */
+.dropdown a:hover {
+  background-color: rgba(0, 0, 0, 0.05); /* Light background on hover */
+}
+
+/* Icon alignment */
+.material-icons {
+  vertical-align: middle; /* Align icon with text */
+  margin-right: 8px; /* Space between icon and text */
+}
+
+    </style>
+    <!-- Mobile menu -->
+    <div class="lg:hidden" role="dialog" aria-modal="true" *ngIf="isNavbarOpen">
+      <div class="fixed inset-0 z-50 bg-black opacity-30"></div>
+      <div class="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <div class="flex items-center justify-between">
+          <a class="-m-1.5 p-1.5" routerLink="home">
+            <span class="sr-only">Soking Mart</span>
+            <span class="self-center text-2xl font-semibold whitespace-nowrap text-black">Soking Mart</span>
+          </a>
+          <button type="button" (click)="isNavbarOpen=false" class="-m-2.5 rounded-md p-2.5 text-gray-700">
+            <span class="sr-only">Close menu</span>
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <div class="mt-6 flow-root">
+          <div class="-my-6 divide-y divide-gray-500/10">
+            <div class="space-y-2 py-6">
+              <a routerLink='/home' class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 transition-colors duration-300 ease-in-out" title="Home">
+                <span class="material-symbols-outlined"> home </span>
+              </a>
+              <a routerLink='/categories' class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 transition-colors duration-300 ease-in-out" title="Categories">
+                <span class="material-symbols-outlined"> category </span>
+              </a>
+              <a (click)="isSideCartOpen=true" class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 transition-colors duration-300 ease-in-out" title="Shopping Cart">
+                <span class="material-symbols-outlined"> shopping_cart </span>
+              </a>
+              <a routerLink='/login' class="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50 transition-colors duration-300 ease-in-out" title="Login">
+                <span class="material-symbols-outlined"> login </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <app-side-cart [(sideCart)]="isSideCartOpen"></app-side-cart>
+</body>

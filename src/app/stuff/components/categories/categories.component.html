@@ -1,0 +1,147 @@
+<br>
+<h2 class="text-xl font-semibold sm:text-2xl">Categories</h2> <br>
+
+
+<div class="mt-8 overflow-x-auto"> <!-- Enable horizontal scrolling -->
+  <table class="min-w-full bg-white shadow-md rounded-lg">
+    <thead class="text-gray-700">
+      <tr class="bg-black">
+        <th class="py-3 px-4 text-left text-white text-base rounded-tl-lg font-semibold text-4xl">#</th>
+        <th class="py-3 px-4 text-left text-white text-base font-semibold text-4xl">ID</th>
+        <th class="py-3 px-4 text-left text-white text-base font-semibold text-4xl">Name</th>
+        <th class="py-3 px-4 text-left text-white text-base rounded-tr-lg font-semibold text-4xl">Created At</th>
+        <!-- Add more columns if needed -->
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (category of categories; track category._id) {
+        <tr (click)="selectedCategory(category)" [ngClass]="{ 'bg-green-100': selectCategory == category, 'hover:bg-gray-100': (selectCategory != category) }" class="cursor-pointer transition-colors duration-200">
+
+          <img class="w-16 h-16 p-1 rounded-lg dark:ring-indigo-500"
+            [src]="imgDomain+category.cover"
+            [alt]="category.cover"
+            decoding="async"
+            loading="lazy
+          ">
+
+
+          <td class="py-4 px-4 text-base font-semibold text-gray-500 whitespace-nowrap">{{category._id}}</td>
+          <td class="py-4 px-4 text-base font-semibold text-gray-500 whitespace-nowrap">{{category.name}}</td>
+          <td class="py-4 px-4 text-base font-semibold text-gray-500 whitespace-nowrap">{{category.createdAt|date:'short'}}</td>
+          <!-- Add more data cells if needed -->
+        </tr>
+      }
+    </tbody>
+
+  </table>
+</div>
+<br>
+<div class="flex flex-col md:flex-row gap-4 items-center justify-center">
+  <!-- Add Button -->
+  <button (click)="showFieldAdd(true)" class="bg-green-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:bg-green-600 hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-300">
+    <span class="material-symbols-outlined align-middle">add_circle</span> Add
+  </button>
+
+  <!-- Delete Button -->
+  <button (click)="delete(selectCategory)" class="bg-red-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:bg-red-600 hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-300">
+    <span class="material-symbols-outlined align-middle">delete</span> Delete
+  </button>
+
+  <!-- Update Button -->
+  <button (click)="showEditor(true)" class="bg-blue-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:bg-blue-600 hover:-translate-y-1 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300">
+    <span class="material-symbols-outlined align-middle">update</span> Update
+  </button>
+</div>
+
+
+<div class="flex items-center gap-8 justify-center max-w-lg mx-auto py-16">
+  <button (click)="changePage(pagination.prev!)" [disabled]="pagination.currentPage == 1" class="rounded-md border border-slate-300 p-2.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+      <path fill-rule="evenodd" d="M11.03 3.97a.75.75 0 0 1 0 1.06l-6.22 6.22H21a.75.75 0 0 1 0 1.5H4.81l6.22 6.22a.75.75 0 1 1-1.06 1.06l-7.5-7.5a.75.75 0 0 1 0-1.06l7.5-7.5a.75.75 0 0 1 1.06 0Z" clip-rule="evenodd" />
+    </svg>
+  </button>
+
+  <p class="text-slate-600">
+    Page <strong class="text-slate-800">{{pagination.currentPage}}</strong> of&nbsp;<strong class="text-slate-800">{{pagination.totalPages}}</strong>
+  </p>
+
+  <button [disabled]="pagination.currentPage == pagination.totalPages" (click)="changePage(pagination.next!)" class="rounded-md border border-slate-300 p-2.5 text-center text-sm transition-all shadow-sm hover:shadow-lg text-slate-600 hover:text-white hover:bg-slate-800 hover:border-slate-800 focus:text-white focus:bg-slate-800 focus:border-slate-800 active:border-slate-800 active:text-white active:bg-slate-800 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none" type="button">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+      <path fill-rule="evenodd" d="M12.97 3.97a.75.75 0 0 1 1.06 0l7.5 7.5a.75.75 0 0 1 0 1.06l-7.5 7.5a.75.75 0 1 1-1.06-1.06l6.22-6.22H3a.75.75 0 0 1 0-1.5h16.19l-6.22-6.22a.75.75 0 0 1 0-1.06Z" clip-rule="evenodd" />
+    </svg>
+  </button>
+</div>
+ 
+
+@if (submitForm) {
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40 animate-fade-in" id="addCategoruModal">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg relative">
+      <div class="flex justify-end">
+        <button type="button" (click)="showFieldAdd(false)" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+
+      <h2 class="text-lg font-semibold mb-4">Add New Category</h2>
+
+      <form [formGroup]="addCategoryForm" (ngSubmit)="addCategory(addCategoryForm)">
+        <!-- Name Input -->
+        <div class="mb-4">
+          <label for="addName" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+          <input id="addName" formControlName="name" type="text" class="focus:border-indigo-500 border border-gray-300 rounded block w-full px-3 py-2" placeholder="Enter Category name" required />
+        </div>
+
+        <!-- Cover Image Input -->
+        <div class="mb-4">
+          <label for="cover" class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+          <input id="cover" formControlName="cover" type="file" (change)="setCategoryImage($event)" class="border rounded-md p-2 w-full" />
+        </div>
+
+        <!-- Add Button -->
+        <button type="submit" class="bg-blue-500 text-white font-semibold py-2 px-4 border border-blue-500 hover:bg-blue-700 rounded">
+          Add Category
+        </button>
+      </form>
+
+    </div>
+  </div>
+}
+
+
+@if ( editorForm ){
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-40" id="editCategoryModal">
+    <div class="bg-white rounded-lg shadow-lg p-6 w-11/12 max-w-lg relative">
+      <div class="flex justify-end">
+        <button type="button" (click)="showEditor(false)" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+        </button>
+      </div>
+
+      <h2 class="text-lg font-semibold mb-4">Edit Category Information</h2>
+
+      <form [formGroup]="editCategoryForm" (ngSubmit)="updateCategory(editCategoryForm)">
+        <!-- Name Input -->
+        <div class="mb-4">
+          <label for="editName" class="block text-sm font-medium text-gray-700 mb-2">Name</label>
+          <input id="editName" formControlName="name" [value]="selectCategory.name" type="text" class="focus:border-indigo-500 border border-gray-300 rounded block w-full px-3 py-2" placeholder="Enter Category name" required />
+        </div>
+        <!-- Cover Image Input -->
+        <div class="mb-4">
+          <label for="cover" class="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+          <input id="cover" type="file" formControlName="cover"  (change)="setCategoryImage($event)" class="border rounded-md p-2 w-full" />
+        </div>
+
+        <!-- Update Button -->
+        <button type="submit" class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+          Update Information
+        </button>
+      </form>
+    </div>
+  </div>
+
+}
