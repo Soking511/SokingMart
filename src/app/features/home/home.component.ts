@@ -29,12 +29,14 @@ import { CartService } from '../../shared/services/cart.service';
 import { HeroSectionsComponent } from "./hero-sections/hero-sections.component";
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     AnimateOnScrollModule,
+    ScrollingModule,
     ImageModule,
     DropdownModule,
     InputTextModule,
