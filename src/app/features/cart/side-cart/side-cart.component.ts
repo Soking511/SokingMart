@@ -5,6 +5,7 @@ import { Products } from '../../../shared/interfaces/products';
 import { CartService } from '../../../shared/services/cart.service';
 import { Cart, IItems } from '../../../shared/interfaces/order';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 // import { Products, CartItems } from '@angular/'
 
 @Component({
@@ -23,6 +24,7 @@ export class SideCartComponent implements OnInit{
 
   constructor(
     private _GlobalService:GlobalService,
+    private _AuthService:AuthService,
     private _CartService:CartService,
     private cdr:ChangeDetectorRef,
    ){ }
@@ -31,15 +33,19 @@ export class SideCartComponent implements OnInit{
    removeProductFromCart(productId: string) {
     this._CartService.removeFromCart(this.currentUserCart.find((item: any) => item.product._id === productId)!._id!);
   }
-  
+
   getUserCart() {
     this._CartService.cart$.subscribe((cart) => {
-      this.currentUserCart = cart;
-      this.totalPriceCart=0;
-      for ( const item of cart ){
-        this.totalPriceCart+=item.price!*item.quantity!;
+      if( this._AuthService.currentUser){
+        this.currentUserCart = cart;
+        this.totalPriceCart=0;
+        for ( const item of cart ){
+          this.totalPriceCart+=item.price!*item.quantity!;
+        }
+        this.cdr.detectChanges();
+      } else {
+        this.currentUserCart = [];
       }
-      this.cdr.detectChanges();
     });
   }
 

@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 import { GlobalService } from './global.service';
 import { Register, Login, SendMail, VerifyCode, ResetPassword } from '../../shared/interfaces/auth';
+import { MessageService } from 'primeng/api';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,7 +20,7 @@ export class AuthService {
   currentUser = new BehaviorSubject(null);
   usersImage: string = '';
 
-  constructor(private _GlobalService: GlobalService, private _HttpClient: HttpClient, private _Router: Router) {
+  constructor(private _GlobalService: GlobalService, private _MessageService:MessageService, private _HttpClient: HttpClient, private _Router: Router) {
     this.baseUrl = this._GlobalService.baseURL;
     this.authRoute = this._GlobalService.authRoute;
     this.userRoute = this._GlobalService.userRoute;
@@ -108,10 +109,14 @@ export class AuthService {
     })
   }
 
+  addMessage = ( severity:string='success', summary:string='Service Message', detail:string='MessageService' ) => this._MessageService.add({severity, summary, detail});
+
+
   logout() {
     localStorage.removeItem('user');
     this.currentUser.next(null);
     this._Router.navigate(['/login'])
+    this.addMessage('warn', 'See u soon', 'You are logged out. !')
   }
 
   getUser(): Observable<any> {
