@@ -72,8 +72,20 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  sideBar(bool:boolean){
-    this.isSidebarOpen = bool;
+  sideBar(isOpen: boolean) {
+    this.isSidebarOpen = isOpen;
+  }
+
+  selectOperation(operationName: string, url?: string) {
+    this.OperationSelected = operationName;
+    // Redirect if URL exists
+    if (url) {
+      this.redirect(url);
+    }
+    // Auto-close sidebar on small screens
+    if (window.innerWidth < 768) {
+      this.isSidebarOpen = false;
+    }
   }
 
   selected(Operation:any){

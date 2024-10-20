@@ -1,16 +1,9 @@
-
-
-
-<link rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <!-- <p-toast></p-toast> -->
-
-  <div class="bg-gray-50 w-full flex flex-col md:flex-row gap-5 min-h-screen py-6">
-    <!-- Slim Sidebar with Slide-in animation on small screens -->
-    <aside class="transition-all transform duration-500 ease-in-out bg-white"
+<div class="bg-gray-50 w-full flex flex-col md:flex-row min-h-screen py-6">
+  <!-- Slim Sidebar with Slide-in animation on small screens -->
+  <aside class="transition-all transform duration-500 ease-in-out bg-white"
     [ngClass]="{
-      'w-1/6': isSidebarOpen,
-      'w-16 h-12 absolute': !isSidebarOpen
+      'w-full md:w-1/5 lg:w-1/6': isSidebarOpen,
+      'w-16 h-12 absolute md:relative': !isSidebarOpen
     }"
     [class.overflow-hidden]="!isSidebarOpen">
     <div class="sticky top-0 flex flex-col gap-6 p-2 border-gray-300">
@@ -25,18 +18,23 @@
           'opacity-100 pointer-events-auto': isSidebarOpen
         }"
         class="transition-opacity duration-500 ease-in-out transform">
-        <div class="">
+        <div>
           <h3 class="pl-3 mb-3 font-semibold text-gray-800">General overview</h3>
           <div class="flex flex-col gap-2">
             <ng-container *ngFor="let op of Operations">
-              <a (click)="OperationSelected = op.name; redirect(op.url!)"
-                class="flex items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-gray-500 cursor-pointer transition-all hover:bg-indigo-100 hover:shadow-md transform hover:scale-105">
-                <span class="flex items-center">
-                  <span class="material-symbols-outlined text-lg mr-2">{{ op.icon }}</span>
-                  {{ op.name }}
-                </span>
-                <span class="material-symbols-outlined text-lg">chevron_right</span>
-              </a>
+              <a (click)="selectOperation(op.name, op.url!)"
+              class="flex items-center justify-between rounded-lg px-4 py-3 text-base font-medium cursor-pointer transition-all hover:bg-indigo-100 hover:shadow-md transform hover:scale-105"
+              [ngClass]="{
+                'text-red-500': op.name === 'Logout',
+                'text-gray-500': op.name !== 'Logout'
+              }">
+              <span class="flex items-center">
+                <span class="material-symbols-outlined text-lg mr-2">{{ op.icon }}</span>
+                {{ op.name }}
+              </span>
+              <span class="material-symbols-outlined text-lg">chevron_right</span>
+            </a>
+
             </ng-container>
           </div>
         </div>
@@ -46,7 +44,7 @@
           <h3 class="pl-3 mb-3 font-semibold text-gray-800">Admin Operations</h3>
           <div class="flex flex-col gap-2">
             <ng-container *ngFor="let adminOp of AdminOperations">
-              <a (click)="OperationSelected = adminOp.name"
+              <a (click)="selectOperation(adminOp.name)"
                 class="flex items-center justify-between rounded-lg px-4 py-3 text-base font-medium text-gray-500 cursor-pointer transition-all hover:bg-indigo-100 hover:shadow-md transform hover:scale-105">
                 <span class="flex items-center">
                   <span class="material-symbols-outlined text-lg mr-2">{{ adminOp.icon }}</span>
@@ -61,112 +59,26 @@
     </div>
   </aside>
 
+  <!-- Main content area -->
+  <main class="bg-white shadow-xl w-full flex flex-col min-h-screen py-6 px-4 transition-all duration-500 ease-in-out"
+        [ngClass]="{
+          'ml-0': !isSidebarOpen,
+          'ml-4 md:ml-[4rem] ': isSidebarOpen
+        }">
+    <div class="p-8 w-full space-y-6">
+      <!-- Dynamically load components based on selected operation -->
+      <app-myprofile *ngIf="OperationSelected === 'My Profile'"></app-myprofile>
+      <app-orders *ngIf="OperationSelected === 'My Orders'"></app-orders>
+      <app-myreviews *ngIf="OperationSelected === 'Reviews'"></app-myreviews>
+      <app-mywishlist *ngIf="OperationSelected === 'My Wishlist'"></app-mywishlist>
 
-
-    <!-- Main content area -->
-    <main class="bg-white shadow-xl w-full flex flex-col md:flex-row gap-5 min-h-screen py-6">
-      <div class="p-8 w-full space-y-6">
-        <!-- Dynamically load components based on selected operation -->
-        <app-myprofile *ngIf="OperationSelected === 'My Profile'"></app-myprofile>
-        <app-orders *ngIf="OperationSelected === 'My Orders'"></app-orders>
-        <app-myreviews *ngIf="OperationSelected === 'Reviews'"></app-myreviews>
-        <app-mywishlist *ngIf="OperationSelected === 'My Wishlist'"></app-mywishlist>
-
-        <!-- Admin Components -->
-        <app-users *ngIf="OperationSelected === 'Manage Users'"></app-users>
-        <app-categories *ngIf="OperationSelected === 'Categories'"></app-categories>
-        <app-subcategories *ngIf="OperationSelected === 'Subcategories'"></app-subcategories>
-        <app-coupons *ngIf="OperationSelected === 'Coupons'"></app-coupons>
-        <app-orders-admin *ngIf="OperationSelected === 'Orders'"></app-orders-admin>
-        <app-products *ngIf="OperationSelected === 'Products'"></app-products>
-      </div>
-    </main>
-  </div>
-
-
-
-<!-- Keyframe animations & styles -->
-<style>
-  @keyframes fadeIn {
-    0% { opacity: 0; }
-    100% { opacity: 1; }
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.8s ease-in-out;
-  }
-
-  aside {
-    background-color: #fff;
-    border-radius: 12px;
-    transition: width 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
-    overflow: hidden; /* Ensures content doesn't overflow when closing */
-  }
-
-  aside.closed {
-    width: 60px; /* Adjust this based on your design */
-    opacity: 0.7; /* Dim the sidebar when closed */
-    padding-left: 0.5rem; /* Smaller padding when closed */
-  }
-
-  aside.open {
-    width: 250px; /* Full width when open */
-    opacity: 1; /* Full opacity when open */
-    padding-left: 1rem; /* Larger padding when open */
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-radius: 10px;
-    padding: 0.75rem 1.25rem;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    opacity: 0.8; /* Default opacity */
-  }
-
-  a:hover {
-    box-shadow: 0px 10px 20px -5px rgba(72, 103, 237, 0.2);
-    opacity: 1; /* Full opacity on hover */
-  }
-
-  .hover\:bg-indigo-100:hover {
-    background-color: transparent; /* Prevent color change */
-  }
-
-  aside h3 {
-    color: #333;
-  }
-
-  .hover\:bg-indigo-100:hover {
-    background-color: #ebf4ff;
-  }
-
-  .hover\:bg-red-100:hover {
-    background-color: #ffe0e0;
-  }
-
-  /* Custom Scrollbar */
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 4px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
-
-</style>
+      <!-- Admin Components -->
+      <app-users *ngIf="OperationSelected === 'Manage Users'"></app-users>
+      <app-categories *ngIf="OperationSelected === 'Categories'"></app-categories>
+      <app-subcategories *ngIf="OperationSelected === 'Subcategories'"></app-subcategories>
+      <app-coupons *ngIf="OperationSelected === 'Coupons'"></app-coupons>
+      <app-orders-admin *ngIf="OperationSelected === 'Orders'"></app-orders-admin>
+      <app-products *ngIf="OperationSelected === 'Products'"></app-products>
+    </div>
+  </main>
+</div>

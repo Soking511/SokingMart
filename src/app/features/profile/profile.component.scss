@@ -1,0 +1,82 @@
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+aside {
+  background-color: #fff;
+  border-radius: 12px;
+  transition: width 0.5s ease, opacity 0.5s ease, padding 0.5s ease;
+  overflow: hidden; /* Ensures content doesn't overflow when closing */
+}
+
+aside.closed {
+  width: 60px; /* Adjust this based on your design */
+  opacity: 0.7; /* Dim the sidebar when closed */
+  padding-left: 0.5rem; /* Smaller padding when closed */
+}
+
+aside.open {
+  width: 250px; /* Full width when open */
+  opacity: 1; /* Full opacity when open */
+  padding-left: 1rem; /* Larger padding when open */
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 10px;
+  padding: 0.75rem 1.25rem;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  opacity: 0.8; /* Default opacity */
+}
+
+a:hover {
+  box-shadow: 0px 10px 20px -5px rgba(72, 103, 237, 0.2);
+  opacity: 1; /* Full opacity on hover */
+}
+
+.hover\:bg-indigo-100:hover {
+  background-color: transparent; /* Prevent color change */
+}
+
+aside h3 {
+  color: #333;
+}
+
+.hover\:bg-indigo-100:hover {
+  background-color: #ebf4ff;
+}
+
+.hover\:bg-red-100:hover {
+  background-color: #ffe0e0;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
