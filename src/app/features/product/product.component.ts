@@ -41,7 +41,10 @@ export class ProductComponent implements OnInit {
     })
   }
 
-  addProductToCart = (product: Products): void => this._CartService.addToCart(product);
+  addProductToCart (product: Products)  {
+    this._CartService.addToCart(product)
+    
+  };
 
   getUserCart() {
     this._ApiService.get<any>('carts', undefined, 'user').subscribe({

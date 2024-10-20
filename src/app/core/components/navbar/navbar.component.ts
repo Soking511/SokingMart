@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter, OnInit, ChangeDetectorRef } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, Output, EventEmitter, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
+import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { HomeComponent } from "../../../features/home/home.component";
 // import { SideCartService } from '../../../shared/services/side-cart.service';
@@ -64,6 +64,9 @@ export class NavbarComponent implements OnInit {
   isSideCartOpen:boolean = false
   selectedUser: MenuItem | null = null;
   isNavbarOpen: boolean = false;
+  isLogin: boolean = false;
+  isDropdownOpen: boolean = false;
+  itemsQuantity: number = 0;
   onUserMenuChange(event: any) {
     if (event.value) {
       event.value.command();
@@ -71,16 +74,27 @@ export class NavbarComponent implements OnInit {
     this.selectedUser = null; // Reset selection
   }
 
-  isLogin: boolean = false;
-  isDropdownOpen: boolean = false;
-  itemsQuantity: number = 0;
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.navbar') && this.isNavbarOpen) {
+      this.isNavbarOpen = true;
+    }
+  }
+
   @Output() cartClicked = new EventEmitter<void>();
 
   constructor(
+    private _Router: Router,
     private _AuthService: AuthService,
     private _CartService: CartService,
     private cdr: ChangeDetectorRef,
   ) {
+    this._Router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        this.isNavbarOpen = false;
+      }
+    });
 
     this._AuthService.currentUser.subscribe({
       next: () => {

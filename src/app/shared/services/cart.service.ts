@@ -71,7 +71,7 @@ export class CartService{
         next: () => {
           this.loadCart();
         },
-        error:() =>{ this.addMessage('error', 'error', 'Product Not Have Quantity');}
+        error:() =>{ this.addMessage('error', 'error', 'Product Not Have Quantity'); }
       });
     }
   }

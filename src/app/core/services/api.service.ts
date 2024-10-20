@@ -67,7 +67,11 @@ export class ApiService {
         "X-API-KEY": `${this.apiKey}`,
         "X-CSRF-Token": `${Cookies.get('cookies')}`
       }, withCredentials: true
-    })
+    }).pipe(
+      catchError((error) => {
+        return throwError(error); 
+      })
+    );
   }
 
   delete(route: string, id?:string):Observable<any> {

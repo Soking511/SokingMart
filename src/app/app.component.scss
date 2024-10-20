@@ -1,0 +1,20 @@
+.p-toast {
+  width: auto; /* Adjust width as necessary */
+  max-width: 90%; /* Max width for responsiveness */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Offset to center */
+}
+
+@media (max-width: 600px) {
+  .p-toast {
+    bottom: 20px; /* Adjust position for mobile */
+    left: 10px; /* Ensure padding from left */
+    right: 10px; /* Ensure padding from right */
+  }
+}
+
+@media (min-width: 601px) {
+  .p-toast {
+    bottom: 30px; /* Position for larger screens */
+  }
+}

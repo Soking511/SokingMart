@@ -6,7 +6,8 @@ import { BestSellerComponent } from './features/home/best-seller/best-seller.com
 import { HomeComponent } from './features/home/home.component';
 // import { SideCartService } from './shared/services/side-cart.service';
 import { CartComponent } from "./features/cart/cart.component";
-import { PrimeNGConfig } from 'primeng/api';
+import { MessageService, PrimeNGConfig } from 'primeng/api';
+import { Toast, ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ import { PrimeNGConfig } from 'primeng/api';
   imports: [
     RouterOutlet,
     HomeComponent,
+    ToastModule,
     NavbarComponent,
     FooterComponent,
     BestSellerComponent,
@@ -25,7 +27,7 @@ import { PrimeNGConfig } from 'primeng/api';
 
 export class AppComponent {
   title = 'Soking';
-  constructor( private primengConfig: PrimeNGConfig) {
+  constructor( private primengConfig: PrimeNGConfig, private _MessageService:MessageService) {
 
   }
 

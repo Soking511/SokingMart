@@ -11,6 +11,7 @@ import { ProductsService } from '../services/products.service';
 import { ReviewsService } from './services/reviews.service';
 import { ApiService } from '../../../core/services/api.service';
 import { Users } from '../../../shared/interfaces/uesrs';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-reviews',
@@ -43,11 +44,9 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   constructor(
     private _AuthService: AuthService,
     private _ReviewsService: ReviewsService,
-    private _ProductsService: ProductsService,
+    private _MessageService: MessageService,
     private _ActivatedRoute: ActivatedRoute,
     private _ApiService: ApiService,
-    private _ProductComponent: ProductComponent,
-    private _Router: Router
   ) { }
 // `${this.baseUrl}${this.productsRoute}/${productId}/reviews`
 
@@ -63,7 +62,7 @@ getProduct(productId: string) {
 loadProductReviews(productId: string) {
   this._ApiService.get<any>(`products/${productId}/reviews`).subscribe({
     next: (res) => { this.reviews = res.data; },
-    // error: (err) => { },
+    error: (err) => { },
   });
 }
 
@@ -76,22 +75,23 @@ loadProductReviews(productId: string) {
         location.reload();
       },
       error: (err) => {
-        // this._NotificationService.showNotification('Failed to delete review', 'error');
+          this.addMessage('error', 'error', 'Failed to delete review')
       }
     });
   }
+
+  private addMessage ( severity:string='success', summary:string='Service Message', detail:string='MessageService' ){ this._MessageService.add({severity, summary, detail})};
 
   addReview(productID:string, reviewForm: any) {
     this._ApiService.post<Reviews>(`products/${productID}/reviews`, reviewForm.value).subscribe({
       next: (res) => {
         location.reload();
-        // this._NotificationService.showNotification('Review Added successfully!', 'success');
       },
       error: (err) => {
         if (err.error.errors) {
-          // this._NotificationService.showNotification(err.error.errors[0].msg, 'error')
+          this.addMessage('error', 'error', err.error.errors[0].msg);
         } else {
-          // this._NotificationService.showNotification('Login please !', 'error')
+          this.addMessage('error', 'error', 'Login please !')
         }
       }
     })
@@ -101,13 +101,14 @@ loadProductReviews(productId: string) {
     this._ApiService.update<Reviews>(`reviews/${this.currentReviewID}`, reviewForm.value).subscribe({
       next: (res) => {
         location.reload();
-        // this._NotificationService.showNotification('Review Updated successfully!', 'success');
+        this.addMessage('success', 'Review', 'Added success !')
+
       },
       error: (err) => {
         if (err.error.errors) {
-          // this._NotificationService.showNotification(err.error.errors[0].msg, 'error')
+          this.addMessage('error', 'error', err.error.errors[0].msg)
         } else {
-          // this._NotificationService.showNotification('Login please !', 'error')
+          this.addMessage('error', 'error', 'Login please !')
         }
       }
     })
