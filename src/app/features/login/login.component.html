@@ -1,47 +1,56 @@
 <!-- Add Font Awesome CDN in your HTML <head> if not included already -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
-  <div class="min-h-screen flex items-center justify-center lg:px-8">
-    <div class="max-w-md w-full space-y-8 bg-white bg-opacity-30 backdrop-blur-md shadow-lg rounded-xl p-10 transition-all duration-300 ease-in-out">
+  <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md lg:max-w-lg w-full space-y-8 bg-white bg-opacity-30 backdrop-blur-md shadow-lg rounded-xl p-8 sm:p-10 transition-all duration-300 ease-in-out">
       <div class="text-center">
         <!-- Centered Icon with Animation -->
         <div class="flex justify-center mb-4">
-          <i class="fas fa-user-circle text-6xl text-gray-600 transition-transform transform hover:scale-110 duration-300"></i>
+          <i class="fas fa-user-circle text-5xl sm:text-6xl text-gray-600 transition-transform transform hover:scale-110 duration-300"></i>
         </div>
-        <h1 class="mb-6 text-3xl text-center font-bold">Login</h1>
+        <h1 class="mb-6 text-2xl md:text-3xl font-bold">Login</h1>
       </div>
-      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)" class="mt-8 space-y-6">
-        <div class="rounded-md shadow-sm space-y-6">
+
+      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm)" class="space-y-6">
+        <div class="space-y-4 sm:space-y-6">
+          <!-- Email Input -->
           <div>
             <input id="email" placeholder="Email Address" formControlName="email" type="email" name="email" required
-              class="appearance-none rounded-lg relative block w-full px-5 py-3 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-all duration-300 ease-in-out bg-white bg-opacity-70 shadow-md backdrop-blur-md hover:bg-opacity-80" />
+              class="appearance-none rounded-lg relative block w-full px-5 py-3 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-300 bg-white bg-opacity-70 shadow-md backdrop-blur-md hover:bg-opacity-80" />
           </div>
+          <!-- Password Input -->
           <div>
             <input id="password" placeholder="Password" formControlName="password" type="password" name="password" required
-              class="appearance-none rounded-lg relative block w-full px-5 py-3 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-all duration-300 ease-in-out bg-white bg-opacity-70 shadow-md backdrop-blur-md hover:bg-opacity-80" />
+              class="appearance-none rounded-lg relative block w-full px-5 py-3 border border-gray-300 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition-all duration-300 bg-white bg-opacity-70 shadow-md backdrop-blur-md hover:bg-opacity-80" />
           </div>
         </div>
 
+        <!-- Remember Me and Forgot Password Links -->
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <input id="remember_me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
             <label for="remember_me" class="ml-2 block text-sm text-gray-900">Remember me</label>
           </div>
           <div class="text-sm">
-            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-400 transition-colors duration-300 ease-in-out">Forgot your password?</a>
+            <a href="#" class="font-medium text-indigo-600 hover:text-indigo-400 transition-colors duration-300">Forgot your password?</a>
           </div>
         </div>
 
+        <!-- Sign In Button -->
         <div>
-          <button type="submit" class="group relative w-full flex justify-center py-4 px-4 border border-transparent text-lg font-semibold rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-md transition-all duration-300 ease-in-out transform hover:scale-105">Sign In</button>
+          <button type="submit" class="w-full py-3 sm:py-4 flex justify-center border border-transparent text-lg font-semibold rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-md transition-all duration-300 transform hover:scale-105">
+            Sign In
+          </button>
         </div>
       </form>
 
+      <!-- Redirect to Register -->
       <div class="text-center text-sm text-gray-600 mt-4">
         <span>Don't have an account?</span>
-        <a routerLink="/register" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300 ease-in-out">Create one</a>
+        <a routerLink="/register" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300">Create one</a>
       </div>
     </div>
   </div>
+
 
   <!-- <p-toast></p-toast> -->
