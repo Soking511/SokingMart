@@ -1,0 +1,1 @@
+import{n as e}from"./chunk-LOKSAM3O.js";import{Y as o,ba as t}from"./chunk-RJKANFF5.js";var i=class r{constructor(c){this._GlobalService=c;this.productImages=this._GlobalService.productsImage}productImages="";static \u0275fac=function(a){return new(a||r)(t(e))};static \u0275prov=o({token:r,factory:r.\u0275fac,providedIn:"root"})};export{i as a};

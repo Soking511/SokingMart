@@ -87,7 +87,7 @@ export class HomeComponent {
   subcategoryForm = new FormGroup({ _id: new FormControl("All", [Validators.required]) });
   imgDomain: string = '';
   pagination: Pagination = {};
-  limit: number = 8;
+  limit: number = 10;
   page: number = 1;
   sort: string = '-createdAt';
   search: string = '';
@@ -190,7 +190,7 @@ export class HomeComponent {
     const windowBottom = windowHeight + window.pageYOffset;
 
     if (windowBottom >= docHeight * 0.7 && !this.isLoading && this.page < this.pagination.totalPages!) {
-      this.limit += 4;
+      this.limit += 5;
       this.loadProducts();
     }
   }
